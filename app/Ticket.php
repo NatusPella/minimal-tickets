@@ -48,7 +48,7 @@ class Ticket
 
   public static function getByIdOrFail($id){
     $ticket = Ticket::getById($id);
-    if ($ticket == null){
+    if ($ticket->id == null){
       throw new Exception("Ticket was not found");
     }
     else {

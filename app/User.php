@@ -48,7 +48,7 @@ class User
   public static function getByIdOrFail($id)
   {
     $user = User::getById($id);
-    if ($user == null){
+    if ($user->id == null){
       throw new Exception("User was not found");
     } else {
       return $user;
