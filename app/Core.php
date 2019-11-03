@@ -68,32 +68,36 @@ class Core
 
   public function createTicket()
   {
-    if (isset($_POST['title']))
-    {
-      $tags = array();
-      foreach ($_POST as $key => $value) {
-        if(strpos($key, "tag-" > -1))
-        {
-          //TODO Filter value
-          $tags[] = $key;
+    if (Core::isAuthenticated()) {
+      if (isset($_POST['title']))
+      {
+        $tags = array();
+        foreach ($_POST as $key => $value) {
+          if(strpos($key, "tag-") > -1)
+          {
+            //TODO Filter value
+            $tags[$key] = Core::$defaultTags[$key];
+          }
         }
+
+        //TODO Filter value
+        $ticket = Ticket::createFromArray(array(
+          "title" => $_POST['title'],
+          "description" => $_POST['description'],
+          "tags" => $tags
+        ));
+
+        $ticket->save();
+
+        $this->ownerList();
+      } else {
+        $render = new Renderer();
+        $render->render("createticket", array(
+          "defaultTags" => Core::$defaultTags
+        ));
       }
-
-      //TODO Filter value
-      $ticket = Ticket::createFromArray(array(
-        "title" => $_POST['title'],
-        "description" => $_POST['description'],
-        "tags" => $tags
-      ));
-
-      $ticket->save();
-
-      echo "Created a new ticket";
     } else {
-      $render = new Renderer();
-      $render->render("createticket", array(
-        "defaultTags" => Core::$defaultTags
-      ));
+      $this->login();
     }
   }
 
@@ -111,7 +115,7 @@ class Core
 
         $renderer = new Renderer();
         $renderer->render("list", array(
-          "ownedTickets" => $ownedTickets,          
+          "ownedTickets" => $ownedTickets,
         ));
     } else {
       $this->login();
@@ -175,6 +179,9 @@ class Core
     $user = User::getByIdOrFail(User::calculateId($_GET['email']));
     if($user->otp === $_GET['otp'])
     {
+      $user->otp = hash("sha1", rand(-999999, 999999));
+      $user->save();
+      
       $_SESSION['currentUser'] = $user;
 
       //Header("Location: ");
