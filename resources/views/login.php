@@ -21,7 +21,7 @@ require_once("resources/views/components/header.php");
         <input class="form-control" type='email' name='email' id="email" placeholder="name@example.com" required>
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
-        <input type='submit' class='btn btn-primary' value='Login / Register'>
+        <input type='submit' class='btn btn-outline-primary' value='Login / Register'>
       </form>
       <?php
       }
