@@ -26,7 +26,7 @@ require_once("resources/views/components/header.php");
           }
           //TODO Custom tags
           ?>
-        <input type='submit' class="btn btn-outline-primary" value='Submit'>
+        <input type='submit' class="btn btn-muchmedia" value='Submit'>
       </form>
     </div>
   </div>

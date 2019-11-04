@@ -32,7 +32,11 @@ require_once("resources/views/components/header.php");
       </p>
       <?php
       }
-      ?>      
+      ?>
+
+      <form action="?action=addComment&id=<?= $data['ticket']->id ?>" method="POST">
+        
+      </form>
     </div>
   </div>
 </div>
