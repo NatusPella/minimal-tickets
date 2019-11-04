@@ -6,7 +6,7 @@ require_once("resources/views/components/header.php");
   <div class="row">
     <div class="col">
       <h3>Create ticket</h3>
-      <form method='POST'>
+      <form method='POST' action='?action=createTicket'>
         <div class="form-group">
           <label for="title"><b>Title</b></label>
           <input id="title" class="form-control" required type='text' name='title'>

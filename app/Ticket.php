@@ -36,6 +36,16 @@ class Ticket
     Core::$storageEngine::putItem("tickets", $this->id, $this);
   }
 
+  public function addComment($content)
+  {
+    $commentData = new stdClass();
+    $commentData->owner = $_SESSION['currentUser']->id;
+    $commentData->content = $content;
+    $commentData->created = time();
+    
+    $this->comments = array_merge($this->comments, array($commentData));
+  }
+
   public static function getCollection()
   {
     return Core::$storageEngine::getCollection("tickets")->tickets;

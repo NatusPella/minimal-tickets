@@ -31,6 +31,10 @@ class Core
         $this->createTicket();
         break;
 
+      case 'addComment':
+        $this->addComment();
+        break;
+
       case 'loginVerify':
         $this->loginVerify();
         break;
@@ -89,13 +93,28 @@ class Core
 
         $ticket->save();
 
-        $this->ownerList();
+        Header("Location: ?action=ticket&id=" . $ticket->id);
+
       } else {
         $render = new Renderer();
         $render->render("createticket", array(
           "defaultTags" => Core::$defaultTags
         ));
       }
+    } else {
+      $this->login();
+    }
+  }
+
+  public function addComment()
+  {
+    if (Core::isAuthenticated()) {
+      $ticket = Ticket::getByIdOrFail($_GET['id']);
+      $ticket->addComment($_POST['content']);
+      $ticket->save();
+
+      Header("Location: ?action=ticket&");
+
     } else {
       $this->login();
     }
@@ -161,7 +180,10 @@ class Core
           $user->save();
         }
 
-        echo "Please check your e-mail inbox for your one-time-password.";
+        $render = new Renderer();
+        $render->render("login", array(
+          "showSuccess" => true
+        ));
 
         //TODO mail();
       }
@@ -170,7 +192,9 @@ class Core
       }
     } else {
       $render = new Renderer();
-      $render->render("login", array());
+      $render->render("login", array(
+        "showSuccess" => false
+      ));
     }
   }
 
@@ -181,15 +205,13 @@ class Core
     {
       $user->otp = hash("sha1", rand(-999999, 999999));
       $user->save();
-      
+
       $_SESSION['currentUser'] = $user;
 
       //Header("Location: ");
       $this->ownerList();
     } else {
-      echo "Invalid OTP!";
-      echo "Expected: " . $user->otp;
-      Echo "Got: " . $_GET['otp'];
+      echo "Invalid one-time-password";
 
       //$renderer = new Renderer();
       //$renderer->render("login", array());
@@ -200,6 +222,7 @@ class Core
   {
     unset($_SESSION['currentUser']);
     //TODO REFRESH?
+    $this->login();
   }
 
   public function profile()
