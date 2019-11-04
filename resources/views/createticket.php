@@ -4,7 +4,7 @@ require_once("resources/views/components/header.php");
 ?>
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col mx-3">
       <h3>Create ticket</h3>
       <form method='POST' action='?action=createTicket'>
         <div class="form-group">

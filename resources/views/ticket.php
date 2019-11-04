@@ -5,7 +5,7 @@ require_once("resources/views/components/header.php");
 
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col mx-3">
       <h2 title="ID: <?= $data['ticket']->id ?>"> <?= $data['ticket']->title ?></h2>
 
       <p>
@@ -32,8 +32,7 @@ require_once("resources/views/components/header.php");
       </p>
       <?php
       }
-      ?>
-      </ul>
+      ?>      
     </div>
   </div>
 </div>

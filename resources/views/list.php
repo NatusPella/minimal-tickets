@@ -5,7 +5,7 @@ require_once("resources/views/components/header.php");
 
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col mx-3">
       <?php if (isset($data['ownedTickets']))
       {
         $tickets = $data['ownedTickets'];
@@ -21,13 +21,26 @@ require_once("resources/views/components/header.php");
       if (count($tickets) == 0) {
         echo "<p>There are no tickets to view in this list, you are all set</p>";
       } else {
-        echo "<ul>";
+        echo "
+          <table class='table'>
+           <thead>
+            <tr>
+              <th scope='col'>Ticket</th>
+            </tr>
+          </thead>
+          <tbody>
+        ";
         foreach ($tickets as $ticket) {
-          echo "<li><a href='?action=ticket&id=" . $ticket->id . "'>" . $ticket->title . "</a></li>";
+          echo "
+            <tr>
+              <td><a href='?action=ticket&id=" . $ticket->id . "'>" . $ticket->title . "</a></td>
+            </tr>";
         }
-        echo "</ul>";
+        echo "
+          </tbody>
+          </table>";
       }
-      ?>      
+      ?>
     </div>
   </div>
 </div>

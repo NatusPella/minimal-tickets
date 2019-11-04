@@ -5,7 +5,7 @@ require_once("resources/views/components/header.php");
 
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col mx-3">
       <h2>Login</h2>
       <?php
       if ($data['showSuccess']) {
