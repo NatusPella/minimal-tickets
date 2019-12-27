@@ -27,7 +27,7 @@ class User
 
   public function save()
   {
-    Core::$storageEngine::putItem("users", $this->id, $this);
+    Core::$settings->storageEngine::putItem("users", $this->id, $this);
   }
 
   public static function calculateId($email)
@@ -37,12 +37,12 @@ class User
 
   public static function getCollection()
   {
-    return Core::$storageEngine::getCollection("users")->users;
+    return Core::$settings->storageEngine::getCollection("users")->users;
   }
 
   public static function getById($id)
   {
-    return new User(Core::$storageEngine::getItem("users", $id));
+    return new User(Core::$settings->storageEngine::getItem("users", $id));
   }
 
   public static function getByIdOrFail($id)

@@ -9,25 +9,36 @@ require_once("resources/views/components/header.php");
       <h2 title="ID: <?= $data['ticket']->id ?>"> <?= $data['ticket']->title ?></h2>
 
       <p>
-        <span class='badge badge-light'><i class="far fa-circle"></i> <?= ucfirst($data['ticket']->status) ?></span>
+        <span class="text-warning">
+            <i class="far fa-circle"></i> <?= ucfirst($data['ticket']->status) ?>
+        </span>
 
+        <span class="text-secondary">
+            <i class="fas fa-calendar-plus"></i> <?= date("Y-m-d H:i", $data['ticket']->updated) ?>
+            <i class="fas fa-calendar"></i> <?= date("Y-m-d H:i", $data['ticket']->created) ?>
+        </span>
+
+        <br>
+
+        <span class="text-info">
+            <i class="fas fa-user"></i> <?= User::getById($data['ticket']->owner)->name ?> (Owner)
+            <i class="fas fa-user-tag"></i> <?= User::getById($data['ticket']->handler)->name ?> (Handler)
+        </span>
+
+        <span class="text-secondary">
         <?php
         foreach ($data['ticket']->tags as $tagId => $tagValue) {
-          echo "<span class='badge badge-light'><i class='fas fa-tag'></i> $tagValue</span>";
+          echo "<i class='fas fa-tag'></i> $tagValue ";
         }
         ?>
-
-        <span class='badge badge-light'><i class="fas fa-user"></i> <?= User::getById($data['ticket']->owner)->name ?> (Owner)</span>
-        <span class='badge badge-light'><i class="fas fa-user-tag"></i> <?= User::getById($data['ticket']->handler)->name ?> (Handler)</span>
-        <span class='badge badge-light'><i class="fas fa-calendar-plus"></i> <?= date("Y-m-d H:i:s", $data['ticket']->updated) ?></span>
-        <span class='badge badge-light'><i class="fas fa-calendar"></i> <?= date("Y-m-d H:i:s", $data['ticket']->created) ?></span>
+        </span>
       </p>
 
       <?php
       foreach ($data['ticket']->comments as $comment) {
       ?>
       <p>
-        <b><i class="fas fa-user"></i> <?= User::getById($comment->owner)->name ?></b> <i class="fas fa-calendar"></i> <?= date("Y-m-d H:i:s", $comment->created) ?><br>
+        <b><i class="fas fa-user"></i> <?= User::getById($comment->owner)->name ?></b> <i class="fas fa-calendar"></i> <?= date("Y-m-d H:i", $comment->created) ?><br>
         <?= $comment->content ?>
       </p>
       <?php
@@ -35,7 +46,7 @@ require_once("resources/views/components/header.php");
       ?>
 
       <form action="?action=addComment&id=<?= $data['ticket']->id ?>" method="POST">
-        
+
       </form>
     </div>
   </div>

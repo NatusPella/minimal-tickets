@@ -10,17 +10,13 @@ require_once("app/MemoryCache.php");
 
 class Core
 {
-  public static $storageEngine = "Storage";
-
-  public static $defaultTags = array(
-    "tag-general" =>"General",
-    "tag-technical" => "Technical",
-    "tag-premium" => "Premium"
-  );
+  public static $settings;
 
   public function initialize()
   {
     session_start();
+
+    Core::$settings = json_decode(file_get_contents("config/Core.json"));
 
     switch ($_GET['action']) {
       case 'ticket':
@@ -80,7 +76,7 @@ class Core
           if(strpos($key, "tag-") > -1)
           {
             //TODO Filter value
-            $tags[$key] = Core::$defaultTags[$key];
+            $tags[$key] = Core::$settings->defaultTags[$key];
           }
         }
 
@@ -98,7 +94,7 @@ class Core
       } else {
         $render = new Renderer();
         $render->render("createticket", array(
-          "defaultTags" => Core::$defaultTags
+          "defaultTags" => Core::$settings->defaultTags
         ));
       }
     } else {
@@ -180,12 +176,22 @@ class Core
           $user->save();
         }
 
-        $render = new Renderer();
-        $render->render("login", array(
-          "showSuccess" => true
-        ));
-
-        //TODO mail();
+        if (mail(
+            $email,
+            "One time password",
+            "Hi, click this link to login to Minimal Tickets: " . Core::$settings->base . "?action=loginVerify&email=" . urlencode($email) . "&otp="  .  $user->otp,
+            "From: support@muchmedia.nl\r\n"
+        )) {
+            $render = new Renderer();
+            $render->render("login", array(
+              "showSuccess" => true
+            ));
+        } else {
+            $render = new Renderer();
+            $render->render("login", array(
+              "showSuccess" => false
+            ));
+        }
       }
       else {
         //TODO Throw error
@@ -233,7 +239,7 @@ class Core
       } else {
         $renderer = new Renderer();
         $renderer->render("profile", array(
-          "user" => User::getByIdOrFail($_SESSION['currentUser'])
+          "user" => $_SESSION['currentUser']
         ));
       }
     } else {

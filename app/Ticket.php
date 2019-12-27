@@ -42,18 +42,18 @@ class Ticket
     $commentData->owner = $_SESSION['currentUser']->id;
     $commentData->content = $content;
     $commentData->created = time();
-    
+
     $this->comments = array_merge($this->comments, array($commentData));
   }
 
   public static function getCollection()
   {
-    return Core::$storageEngine::getCollection("tickets")->tickets;
+    return Core::$settings->storageEngine::getCollection("tickets")->tickets;
   }
 
   public static function getById($id)
   {
-    return new Ticket(Core::$storageEngine::getItem("tickets", $id));
+    return new Ticket(Core::$settings->storageEngine::getItem("tickets", $id));
   }
 
   public static function getByIdOrFail($id){

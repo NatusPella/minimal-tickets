@@ -3,12 +3,12 @@
 class Storage
 {
 
- public function getCollection($type)
+ public static function getCollection($type)
  {
    return json_decode(file_get_contents("storage/$type.json"));
  }
 
- public function getItem($type, $id)
+ public static function getItem($type, $id)
  {
    $collection = json_decode(file_get_contents("storage/$type.json"))->$type;
    foreach ($collection as $item) {
@@ -18,7 +18,7 @@ class Storage
    }
  }
 
- public function putItem($type, $id, $content)
+ public static function putItem($type, $id, $content)
  {
    $rawCollection = json_decode(file_get_contents("storage/$type.json"));
    $collection = $rawCollection->$type;
