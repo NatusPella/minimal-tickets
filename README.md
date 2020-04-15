@@ -1,5 +1,5 @@
 # Minimal Tickets
-Minimal ticket system written in PHP
+Minimal ticket system written in PHP. In development, not ready for production.
 
 ## Userflow
 1. A ``User`` logs in using their e-mail address
