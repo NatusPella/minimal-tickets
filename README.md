@@ -1,6 +1,6 @@
 # Minimal Tickets
 
-This Laravel rewrite is a work in progress. 
+Minimal ticket system written in PHP. In development, not ready for production.
 
 ## Contribute
 
