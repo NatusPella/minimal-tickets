@@ -1,9 +1,0 @@
-{
-    "storageEngine": "Storage",
-    "base": "http://localhost/minimal-tickets/",
-    "defaultTags": {
-        "tag-general": "General",
-        "tag-technical": "Technical",
-        "tag-premium": "Premium"
-    }
-}
