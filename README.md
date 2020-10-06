@@ -1,6 +1,6 @@
 # Minimal Tickets
 
-Work in progress
+This Laravel rewrite is a work in progress. 
 
 ## Contribute
 
